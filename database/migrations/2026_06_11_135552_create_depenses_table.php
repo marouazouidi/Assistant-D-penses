@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('depenses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->int('quantity', 10, 2);
+            $table->integer('quantity');
             $table->decimal('price', 10, 2);
             $table->string('categorie');
             $table->foreignId('recu_id')->constrained()->cascadeOnDelete();
