@@ -1,20 +1,207 @@
 schema: spec-driven
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+Project: Assistant Dépenses
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+Description:
+Application Laravel permettant à un commerçant de coller le texte brut d’un reçu fournisseur.
+Une IA analyse le reçu et extrait automatiquement les dépenses structurées.
+Les données extraites sont validées, typées et enregistrées en base de données.
+
+Tech Stack:
+
+* PHP 8.3+
+* Laravel 13
+* MySQL
+* Laravel Breeze (Authentication)
+* Laravel AI SDK
+* Groq API
+* Laravel Queue Jobs (Database Driver)
+* Eloquent ORM
+* Blade
+* Pest Testing
+* Laravel Debugbar
+
+Architecture Rules:
+
+* Respect strict du pattern MVC.
+* Aucun accès direct à la base depuis les vues.
+* Utiliser les Relations Eloquent.
+* Utiliser les Form Requests pour toute validation.
+* Utiliser les Jobs pour les traitements IA.
+* Utiliser les Enums pour les statuts et catégories.
+* Utiliser les Casts Eloquent.
+* Éviter les requêtes N+1 avec eager loading.
+* Respecter les conventions Laravel.
+
+Main Entities:
+
+User:
+
+* id
+* name
+* email
+* password
+
+Recu:
+
+* id
+* user_id
+* title
+* text_brut
+* statut
+* json
+* created_at
+* updated_at
+
+Depense:
+
+* id
+* recu_id
+* name
+* quantity
+* price
+* categorie
+* created_at
+* updated_at
+
+Enums:
+
+ReceiptStatus:
+
+* pending
+* processed
+* failed
+
+ExpenseCategory:
+
+* alimentaire
+* boissons
+* hygiene
+* autre
+
+Required Features:
+
+1. Authentication
+
+   * Register
+   * Login
+   * Logout
+
+2. Receipt Management
+
+   * Create receipt
+   * List receipts
+   * Show receipt details
+   * Delete receipt
+
+3. AI Extraction
+
+   * Structured output
+   * JSON schema validation
+   * Error handling
+   * Status tracking
+
+4. Expense Tracking
+
+   * Expense listing
+   * Category filtering
+
+5. Queue Processing
+
+   * Async extraction
+   * Background jobs
+   * Worker processing
+
+AI Workflow:
+
+Receipt submitted
+↓
+Receipt stored (pending)
+↓
+Dispatch Job
+↓
+Laravel AI SDK
+↓
+Groq Model
+↓
+Structured JSON Response
+↓
+Validation
+↓
+Save Expenses
+↓
+Receipt processed
+
+JSON Contract:
+
+{
+"articles": [
+{
+"libelle": "string",
+"quantite": "integer",
+"prix_unitaire": "number",
+"categorie": "alimentaire|boissons|hygiene|entretien|autre"
+}
+],
+"total_estime": "number",
+"devise": "MAD"
+}
+
+rules:
+
+proposal:
+- Explain the business problem before the solution.
+- Include objectives.
+- Include scope.
+- Include non-goals.
+- Maximum 800 words.
+- Use French language.
+
+spec:
+- Describe architecture decisions.
+- Explain database design.
+- Explain Eloquent relationships.
+- Explain queue workflow.
+- Explain AI integration.
+- Explain validation strategy.
+- Explain error handling.
+- Include acceptance criteria.
+- Use French language.
+
+tasks:
+- Create granular tasks.
+- One task = one responsibility.
+- Follow implementation order.
+- Mention Laravel commands when relevant.
+- Mention testing tasks.
+- Maximum task duration: 2 hours.
+- Use markdown checkboxes.
+
+implementation:
+- Prefer Laravel best practices.
+- Use dependency injection.
+- Use Form Requests.
+- Use Eloquent Relationships.
+- Use Enums and Casts.
+- Use Queue Jobs.
+- Avoid duplicated code.
+- Keep controllers thin.
+- Move business logic into Services when necessary.
+
+testing:
+- Use Pest.
+- Cover AI extraction workflow.
+- Cover receipt creation.
+- Cover expense creation.
+- Cover queue processing.
+- Use fakes whenever possible.
+
+commits:
+- Follow conventional commits.
+- Mention AI usage when applicable.
+- Examples:
+- feat(ai): add receipt extraction workflow
+- feat(queue): process receipt extraction asynchronously
+- fix(validation): improve receipt request validation
+- docs(openspec): add extraction specification
