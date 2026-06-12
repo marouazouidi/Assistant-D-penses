@@ -22,6 +22,11 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+    public function Recus()
+    {
+        return $this->hasMany(Recu::class);
+    }
+
     protected function casts(): array
     {
         return [

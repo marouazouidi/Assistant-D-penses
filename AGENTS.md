@@ -106,7 +106,6 @@ Receipt hasMany Expenses
 * food
 * drinks
 * hygiene
-* maintenance
 * other
 
 Enums must be used with Eloquent casts.
